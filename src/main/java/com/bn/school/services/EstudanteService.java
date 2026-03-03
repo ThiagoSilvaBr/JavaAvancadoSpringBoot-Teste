@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service//marcar uma classe como camada de regra de negócio da aplicação
 public class EstudanteService {
@@ -27,4 +28,16 @@ public class EstudanteService {
         estudanteRepository.deleteById(id);//deletar do banco por id
     }
 
+    public Optional<EstudanteModel> procurarEstudantebyId(Long id){
+       return estudanteRepository.findById(id)/*.get() */; //pode ser utilizado o optional ou .get() ao final do return. Que faz uma busca que pode ser encontrada ou não
+    }
+
+    public EstudanteModel atualizarEstudante(Long id, EstudanteModel estudanteModel){
+        EstudanteModel newestudanteModel =  estudanteRepository.findById(id).get();
+        newestudanteModel.setNome(estudanteModel.getNome());
+
+
+
+        return estudanteRepository.save(newestudanteModel);
+    }
 }
